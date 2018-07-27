@@ -7,12 +7,27 @@
 @endsection
 
 @section('content')
-  <form class="form-horizontal" method="POST" action="{{ route('register.check') }}">
+  <form method="POST" action="{{ route('register.complete') }}">
     {{ csrf_field() }}
-    <p>名前</p>
-    <input type="text" name="name" class="form-control" style="margin: 10px;" value="{{old('name') }}">
+      <div class="col-md-4 col-form-label">名前：
+        <span>{{$user->name}}</span>
+        <input type="hidden" name="name" value="{{$user->name}}">
+      </div>
 
-    <p>メールアドレス</p>
-    <input type="text" name="name" class="form-control" style="margin: 10px;" value="{{old('name') }}">
+      <div class="col-md-4 col-form-label">メールアドレス：
+        <span>{{$user->email}}</span>
+        <input type="hidden" name="email" value="{{$user->email}}">
+      </div>
+
+      <div class="col-md-4 col-form-label">パスワード：
+        <span>******</span>
+        <input type="hidden" name="password" value="{{$user->password}}">
+      </div>
+      <br>
+
+      <button type="submit" class="btn btn-light text-muted">
+        登録
+      </button>
+
   </form>
 @endsection

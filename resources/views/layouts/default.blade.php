@@ -9,12 +9,12 @@
   <body style="background-color: #f1a1a147;" class="text-muted";>
     @section('sidebar')
       <nav class="navbar navbar-expand-md navbar-dark bg-light" style="background-color: #f1a1a147;">
-        <a href="{{ url('/') }}">チャット</a>
+        <a href="{{ url('/') }}">チャット</a>｜
         @guest
-          <a href="{{ url('/register' )}}">会員登録</a>
-          <a href="{{ url('/login' )}}">ログイン</a>
+          <a href="{{ url('/register' )}}">会員登録</a>｜
+          <a href="{{ url('/login' )}}">ログイン</a>｜
         @else
-          <a href="{{ url('/logout' )}}">ログアウト</a>
+          <a href="{{ route('/logout' )}}">ログアウト</a>
         @endguest
       </nav>
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -73,13 +74,33 @@ class RegisterController extends Controller
     //登録情報入力画面
       public function register_form(){
       // dd(1);
-      return view('auth.register');
+        return view('auth.register');
     }
 
     //登録情報確認画面
     public function register_check(Request $request){
-            // dd($request->all);
-      return view('auth.check');
+      // dd($request->all());
+      $request->validate([
+        'name' => 'required|string',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:6|confirmed',
+      ]);
+      $user = new User();
+      $user->name=$request->name;
+      $user->email=$request->email;
+      $user->password=$request->password;
+
+      return view('auth.check')->with('user',$user);
+    }
+
+    //登録完了（保存）
+    public function register_complete(Request $request){
+      $user = new User();
+      $user->name=$request->name;
+      $user->email=$request->email;
+      $user->password= Hash::make($request->password);
+      $user->save();
+      return view('auth.complete');
     }
 
 }

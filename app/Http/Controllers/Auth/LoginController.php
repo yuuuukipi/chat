@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -25,7 +28,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -35,5 +38,28 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    //ログイン
+    public function login(){
+      return view('auth.login');
+
+      }
+
+    //ログイン完了
+    public function signin(Request $request){
+      dd($request->password);
+      if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])){
+        return redirect()->route('signin');
+      }else{
+        return redirect()->back();
+        }
+      // return view('auth.singin');
+    }
+
+    public  function logout(){
+      // dd(1);
+      Auth::logout();
+      return redirect()->route('index');
     }
 }
