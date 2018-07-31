@@ -40,26 +40,30 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    //ログイン
-    public function login(){
-      return view('auth.login');
+    public function getLogin() {
+      return View::make('login.index');
+    }
 
-      }
+    //ログイン
+    // public function login(){
+    //   return view('auth.login');
+    //
+    //   }
 
     //ログイン完了
-    public function signin(Request $request){
-      dd($request->password);
-      if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])){
-        return redirect()->route('signin');
-      }else{
-        return redirect()->back();
-        }
-      // return view('auth.singin');
-    }
-
-    public  function logout(){
-      // dd(1);
-      Auth::logout();
-      return redirect()->route('index');
-    }
+    // public function signin(Request $request){
+    //   dd($request->password);
+    //   if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])){
+    //     return redirect()->route('signin');
+    //   }else{
+    //     return redirect()->back();
+    //     }
+    //   // return view('auth.singin');
+    // }
+    //
+    // public  function logout(){
+    //   // dd(1);
+    //   Auth::logout();
+    //   return redirect()->route('index');
+    // }
 }
