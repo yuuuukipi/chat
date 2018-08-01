@@ -24,8 +24,8 @@
              </form>
              <a href="#">{{(Auth::user()->name)}}</a>
         @endguest
-      <br></nav><br>
-
+      <br></nav>
+      <br><br>
     @show
       <div class='container'>
         @yield('content')

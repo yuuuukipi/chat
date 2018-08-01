@@ -30,5 +30,6 @@ Route::get('/create','RoomsController@create')->name('create_talk');
 Route::post('/created','RoomsController@created')->name('created_talk');
 //チャット詳細画面
 Route::get('/chats/{room}', 'RoomsController@show')->where('room', '[0-9]+');
+// Route::get('/chats_detail/{room}', 'RoomsController@show2')->where('room', '[0-9]+');
 //チャット投稿
 Route::post('/rooms/{room}/chats', 'ChatsController@store');

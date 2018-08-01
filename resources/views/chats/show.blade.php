@@ -5,7 +5,11 @@
 
   <div class='container'>
     <br><p class="text-muted">{{$room->name}}</p>
+    <li><a href="{{ action('RoomsController@show', $room)}}">メンバー一覧</a></li>
+
+    <br><br>
   </div>
+
 
 @endsection
 
@@ -32,22 +36,54 @@
           </div>
         </div>
       </div>
-      --}}
 
+  <div style="margin-bottom:100px">
+    @foreach($room->chats as $chat)
+      @if((strcmp($chat->user_id,Auth::user()->id))==0)
+        1
+        <div class="card">
+          <p id="a{{$chat->id}}">{{ $chat->comment }}</p>
+            <div class="text-right">{{ $chat->created_at->format('Y/m/d H:i') }}　
+            <a href="#" data-id="{{ $comment->id }}" class="pull-right del">[削除]</a>
+            <form method="post" action="{{ action('CommentsController@destroy', [$chat, $comment] )}}" id="form_{{ $comment->id }}">
+              {{ csrf_field() }}
+              {{ method_field('delete') }}
+            </form>
+          </div>
+        </div>
+      @else
+      2
+      @endif
+    @endforeach
+  </div>
+  --}}
 
 
   <div style="margin-bottom:100px">
     @foreach($room->chats as $chat)
-      <div class="card">
-        <p id="a{{$chat->id}}">{{ $chat->comment }}</p>
+      @if((strcmp($chat->user_id,Auth::user()->id))==0)
+        <div class="card col-md-8 offset-sm-4" style="background-color: gainsboro;">
+          <p id="a{{$chat->id}}">{{ $chat->comment }}</p>
           <div class="text-right">{{ $chat->created_at->format('Y/m/d H:i') }}　
-          {{--<a href="#" data-id="{{ $comment->id }}" class="pull-right del">[削除]</a>
-          <form method="post" action="{{ action('CommentsController@destroy', [$chat, $comment] )}}" id="form_{{ $comment->id }}">
-            {{ csrf_field() }}
-            {{ method_field('delete') }}
-          </form>--}}
+          </div>
         </div>
-    </div>
+        <br>
+      @else
+      <div class="media">
+        <div class="media-left">
+          <a href="#" class="icon-rounded">{{ $chat->user->name }}</a>
+        </div>
+
+        <div class="media-body">
+          <div class="card col-md-8" style="background-color: aliceblue;">
+            <p id="a{{$chat->id}}">{{ $chat->comment }}</p>
+            <div class="text-right">{{ $chat->created_at->format('Y/m/d H:i') }}　
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      @endif
     @endforeach
   </div>
 
