@@ -9,7 +9,7 @@
   <body style="background-color: #f1a1a147; font-family:sans-serif;" class="text-muted";>
     @section('sidebar')
       <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #DDDDDD; position:fixed; width: 100%; z-index: 200;">
-        <a href="{{ url('/') }}" >チャット</a>｜
+        <a href="{{ url('/rooms/') }}" >チャット</a>｜
         @guest
           <a href="{{ route('register') }}">会員登録</a>｜
           <a href="{{ route('login') }}">ログイン</a>｜
@@ -22,18 +22,18 @@
              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                  {{ csrf_field() }}
              </form>
-             <a href="#">{{(Auth::user()->name)}}</a>
+             <a href="{{ action('UsersController@myshow') }}">{{(Auth::user()->name)}}</a>
+             　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
+             <a href="">↑</a>
         @endguest
       <br></nav>
       <br><br>
     @show
       <div class='container'>
         @yield('content')
-
       </div>
 
     @yield('footer')
-
       <script src="{{ asset('js/app.js') }}"></script>
 
   </body>

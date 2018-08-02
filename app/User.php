@@ -31,6 +31,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Chat');
     }
 
+    // public function rooms() {
+    //     return $this->hasMany('App\Room');
+    // }
+
     public function room_users() {
         return $this->hasMany('App\Room_user');
     }

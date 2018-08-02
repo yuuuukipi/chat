@@ -14,11 +14,11 @@ class Room_user extends Model
 
 
   public function room(){
-    return $this -> belongsTo('App\Room');
+    return $this->belongsTo('App\Room');
   }
 
   public function user(){
-    return $this -> belongsTo('App\User');
+    return $this->belongsTo('App\User');
   }
 
 
