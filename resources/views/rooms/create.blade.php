@@ -4,6 +4,10 @@
   @parent
     <div class='container'>
       <br><p class="text-muted">トーク作成</p>
+      <div class="text-right">
+        <a href="{{ route('index') }}" class="header-menu">戻る</a>
+      </div>
+
     </div>
 @endsection
 
@@ -17,7 +21,7 @@
       @if ((strcmp($user->id,Auth::user()->id))!==0)
         <input type="checkbox" name="member[]" value="{{$user->id}}">
           {{$user->name}}
-        </p>
+        <br>
       @endif
     @endforeach
 

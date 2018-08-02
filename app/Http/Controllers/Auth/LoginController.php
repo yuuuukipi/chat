@@ -28,7 +28,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/rooms';
 
     /**
      * Create a new controller instance.
@@ -42,6 +42,14 @@ class LoginController extends Controller
 
     public function getLogin() {
       return View::make('login.index');
+    }
+
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+        $request->session()->flush();
+        $request->session()->regenerate();
+        return redirect('/rooms');
     }
 
     //ログイン

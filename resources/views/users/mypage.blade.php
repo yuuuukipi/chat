@@ -7,6 +7,10 @@
     <br><p class="text-muted">マイページ</p>
     {{--<li><a href="{{ action('ChatsController@member', $room)}}">メンバー一覧</a></li>--}}
 
+    <div class="text-right">
+      <a href="{{ route('index') }}" class="header-menu">戻る</a>
+    </div>
+
     <br>
   </div>
 

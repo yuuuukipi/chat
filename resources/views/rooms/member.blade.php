@@ -4,8 +4,8 @@
   @parent
 
   <div class='container'>
-    <br><p class="text-muted">{{$room->name}} メンバー一覧</p>
-    <br>
+    <br><p class="text-muted">{{$room->name}}</p>
+    メンバー一覧<br>
   </div>
 
 

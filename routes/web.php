@@ -42,4 +42,9 @@ Route::get('/mypage/edit', 'UsersController@edit');
 Route::patch('/mypage', 'UsersController@update');
 
 //ルーム編集
-Route::get('/rooms/edit/{room}', 'RoomsController@edit');
+Route::get('/rooms/{room}/edit', 'RoomsController@edit');
+
+//チャット投稿削除
+Route::delete('/rooms/chats/{chat}', 'RoomsController@destroy');
+//トークルーム削除
+Route::delete('/rooms/{room}', 'RoomsController@destroy_room');

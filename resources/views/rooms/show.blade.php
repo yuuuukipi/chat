@@ -21,6 +21,14 @@
         <div class="card col-md-8 offset-sm-4" style="background-color: gainsboro;">
           <p id="a{{$chat->id}}">{!! nl2br(e($chat->comment)) !!}</p>
           <div class="text-right">{{ $chat->created_at->format('Y/m/d H:i') }}　
+
+            {{--記事の削除--}}
+            <form method="post" action="{{ action('RoomsController@destroy', $chat->id) }}" id="form_{{ $room->id }}">
+              {{ csrf_field() }}
+              {{ method_field('delete') }}
+              <a href="#" class="del" data-id="{{ $chat->id }}">[削除]</a>
+            </form>
+
           </div>
         </div>
         <br>
@@ -54,13 +62,15 @@
             @if ($errors->has('comment'))
               <span class="error">{{ $errors->first('comment')}}</span>
             @endif
-
-          <input type="submit" value="送信">
+            {{--<input type="hidden" name="token" value="{{$token}}">--}}
+            <input type="submit" value="送信">
         </div>
 
       </form>
 
-
     </div>
+
   </footer>
+  <script src="/js/main.js"></script>
+
 @endsection

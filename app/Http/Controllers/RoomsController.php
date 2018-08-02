@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 class RoomsController extends Controller
 {
   public function index(){
+    // if(
     $rooms = Room::with(['room_users'])
       ->select(DB::raw('rooms.id as id, name, max(chats.id) as max_id, rooms.created_at'))
       ->leftJoin('chats', 'chats.room_id', '=', 'rooms.id')
@@ -55,17 +56,25 @@ class RoomsController extends Controller
   }
 
   //チャット画面
-  public function show(Room $room){
-
+  public function show(Request $request, Room $room){
       $latest_id=Chat::latest()->first();
       $room->latest_id=$latest_id->id+1;
       // dd($room->latest_id);
+      $token = md5(uniqid(rand(), true));
+      $request->session()->put('token', $token);
 
     return view('rooms.show')->with('room', $room);
   }
 
   //チャット投稿
   public function store(Request $request, Room $room){
+      // $post_token=$request->get('token');
+      //
+      // if($request->session()->get('token') !== $post_token){
+      //     return redirect('/');
+      // }
+
+
   $this->validate($request, [
     'comment' => 'required'
   ]);
@@ -87,6 +96,36 @@ class RoomsController extends Controller
 
   //ルーム編集
   public function edit(Room $room){
-    return view('rooms.edit')->with('room', $room);
+
+    //課題！
+    // $list = [];
+    // for ($i=0;$i<10;$i++) {
+    //     $list[]=mt_rand(1,10);
+    // }
+    // dd($list);
+
+    // foreach($room->room_users as $data){
+    //   var_dump($data->user->name);
+    // }
+    // dd($room);
+    $users=User::select(DB::raw('id,name'))
+    ->where('id','<>','room.room_users.user_id')
+    ->get();
+    // dd($users->id);
+
+    return view('rooms.edit')->with(['room'=>$room,'users'=>$users]);
   }
+
+  public function destroy(Room $room) {
+    dd($chat->id);
+  $chat->delete();
+  return redirect('/');
+  }
+
+  public function destroy_room(room $room) {
+  $room->delete();
+  return redirect('/rooms');
+  }
+
+
 }
