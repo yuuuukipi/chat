@@ -16,7 +16,7 @@
 @section('content')
 
   <a href="#" class="del" data-id="{{ $room->id }}">ルーム削除</a>
-  <form method="post" action="{{ action('RoomsController@destroy_room', $room) }}" id="form_{{ $room->id }}">
+  <form method="post" action="{{ action('RoomsController@destroyRoom', $room) }}" id="form_{{ $room->id }}">
     {{ csrf_field() }}
     {{ method_field('delete') }}
   </form>

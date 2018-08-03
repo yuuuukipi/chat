@@ -47,4 +47,4 @@ Route::get('/rooms/{room}/edit', 'RoomsController@edit');
 //チャット投稿削除
 Route::delete('/rooms/chats/{chat}', 'RoomsController@destroy');
 //トークルーム削除
-Route::delete('/rooms/{room}', 'RoomsController@destroy_room');
+Route::delete('/rooms/{room}', 'RoomsController@destroyRoom');

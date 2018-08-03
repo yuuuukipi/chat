@@ -89,6 +89,7 @@ class RegisterController extends Controller
       $user->name=$request->name;
       $user->email=$request->email;
       $user->password=$request->password;
+      // $user->admin_flag=false;
 
       return view('auth.check')->with('user',$user);
     }
@@ -99,6 +100,7 @@ class RegisterController extends Controller
       $user->name=$request->name;
       $user->email=$request->email;
       $user->password= Hash::make($request->password);
+      // $user->admin_flag=false;
       $user->save();
       return view('auth.complete');
     }

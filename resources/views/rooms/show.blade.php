@@ -23,10 +23,10 @@
           <div class="text-right">{{ $chat->created_at->format('Y/m/d H:i') }}　
 
             {{--記事の削除--}}
-            <form method="post" action="{{ action('RoomsController@destroy', $chat->id) }}" id="form_{{ $room->id }}">
+            <a href="#" class="del" data-id="{{ $chat->id }}">[削除]</a>
+            <form method="post" action="{{ action('RoomsController@destroy', $chat) }}" id="form_{{ $chat->id }}">
               {{ csrf_field() }}
               {{ method_field('delete') }}
-              <a href="#" class="del" data-id="{{ $chat->id }}">[削除]</a>
             </form>
 
           </div>
