@@ -22,26 +22,23 @@
   </form>
 
   <div><br>
+
     <p>＜ユーザー削除＞</p>
-    @foreach($room->room_users as $data)
-      <a href="#">×</a>
-      {{$data->user->name}}
-      <br>
+    @foreach($del_users as $del_user)
+    {{$del_user->name}}
+      <a href="#" class="del" data-id="{{ $del_user->id }}">×</a>
+      <form method="post" action="{{ action('RoomsController@destroyUser', $room, $del_user) }}" id="form_{{ $del_user->id }}">
+        {{ csrf_field() }}
+        {{ method_field('delete') }}
+      </form>
     @endforeach
     <br>
     <p>＜ユーザー追加＞</p>
 
-    @foreach($users as $user)
-      @if (strcmp($user->id,Auth::user()->id)!==0)
-          @foreach($room->room_users as $data)
-            @if (strcmp($user->id,$data->user->id)===0)
-                @break
-                <input type="checkbox" name="member[]" value="{{$user->id}}">
-                  {{$user->name}}
-                <br>
-            @endif
-          @endforeach
-      @endif
+    @foreach($add_users as $add_user)
+        <input type="checkbox" name="member[]" value="{{$add_user->id}}">
+          {{$add_user->name}}
+        <br>
     @endforeach
 
   </div>

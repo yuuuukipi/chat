@@ -14,9 +14,15 @@ class RoomUserTable extends Migration
     public function up()
     {
       Schema::create('room_users', function (Blueprint $table) {
+        $table->engine = 'InnoDB';
         $table->increments('id');
-        $table->string('room_id');
+        $table->unsignedInteger('room_id');
         $table->string('user_id');
+        $table
+          ->foreign('room_id')
+          ->references('id')
+          ->on('rooms')
+          ->onDelete('cascade');
         });
     }
 
