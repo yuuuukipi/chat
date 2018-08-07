@@ -19,9 +19,11 @@
     {{ csrf_field() }}
     @foreach($users as $user)
       @if ((strcmp($user->id,Auth::user()->id))!==0)
-        <input type="checkbox" name="member[]" value="{{$user->id}}">
-          {{$user->name}}
-        <br>
+        @if (( strcmp("0",$user->admin_flag))===0)
+          <input type="checkbox" name="member[]" value="{{$user->id}}">
+            {{$user->name}}
+          <br>
+        @endif
       @endif
     @endforeach
     <br>

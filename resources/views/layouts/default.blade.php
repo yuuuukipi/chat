@@ -11,7 +11,7 @@
       <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #DDDDDD; position:fixed; width: 100%; z-index: 200;">
         <a href="{{ url('/rooms/') }}" >チャット</a>｜
         @guest
-          <a href="{{ route('register') }}">会員登録</a>｜
+          <a href="{{ url('/self/register') }}">会員登録</a>｜
           <a href="{{ route('login') }}">ログイン</a>｜
         @else
           <a href="{{ route('logout') }}"

@@ -27,20 +27,27 @@
     @foreach($del_users as $del_user)
     {{$del_user->name}}
       <a href="#" class="del" data-id="{{ $del_user->id }}">×</a>
-      <form method="post" action="{{ action('RoomsController@destroyUser', $room, $del_user) }}" id="form_{{ $del_user->id }}">
+      <form method="post" action="{{ action('RoomsController@destroyUser', ['room' => $room->id, 'user' => $del_user->id]) }}" id="form_{{ $del_user->id }}">
+        <input type="hidden" name="user" value="{{$del_user->id}}">
         {{ csrf_field() }}
         {{ method_field('delete') }}
       </form>
     @endforeach
     <br>
-    <p>＜ユーザー追加＞</p>
 
-    @foreach($add_users as $add_user)
-        <input type="checkbox" name="member[]" value="{{$add_user->id}}">
-          {{$add_user->name}}
-        <br>
-    @endforeach
-
+    <form method="post" action="{{action('RoomsController@add_user',$room)}}">
+      {{ csrf_field() }}
+      <p>＜ユーザー追加＞</p>
+      @foreach($add_users as $add_user)
+          <input type="checkbox" name="member[]" value="{{$add_user->id}}">
+            {{$add_user->name}}
+          <br>
+      @endforeach
+      <br>
+      <button type="submit" class="btn btn-light">
+          追加
+      </button>
+    </form>
   </div>
   <script src="/js/main.js"></script>
 @endsection

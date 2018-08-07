@@ -12,9 +12,10 @@
 */
 
 //会員登録
-// Route::get('/register','Auth\RegisterController@register_form')->name('register.form');
-// Route::post('/check','Auth\RegisterController@register_check')->name('register.check');
-// Route::post('/complete','Auth\RegisterController@register_complete')->name('register.complete');
+Route::get('/self/register','Auth\RegisterController@register_form')->name('register.form');
+Route::post('/self/check','Auth\RegisterController@register_check')->name('register.check');
+Route::post('/self/complete','Auth\RegisterController@register_complete')->name('register.complete.self');
+// Route::get('/rooms', ['middleware' => 'auth', 'uses' => 'RoomsController@index']);
 //ログイン
 // Route::get('/login','Auth\LoginController@login')->name('login');
 // Route::get('/signin','Auth\LoginController@signin')->name('signin');
@@ -49,4 +50,13 @@ Route::delete('/rooms/chats/{chat}', 'RoomsController@destroy');
 //トークルーム削除
 Route::delete('/rooms/{room}', 'RoomsController@destroyRoom');
 //ユーザー削除
-Route::delete('/rooms/{room}/edit', 'RoomsController@destroyUser');
+Route::delete('/rooms/{room}/users/{user}', 'RoomsController@destroyUser');
+//ユーザー追加
+Route::post('/rooms/{room}/users/new', 'RoomsController@add_user')->name('add_user');
+
+//管理画面　ユーザー一覧
+Route::get('/rooms/admin/users', 'RoomsController@admin_users');
+//管理画面　ルーム一覧
+Route::get('/rooms/admin/rooms', 'RoomsController@admin_rooms');
+//管理画面　投稿一覧
+Route::get('/rooms/admin/chats', 'RoomsController@admin_chats');

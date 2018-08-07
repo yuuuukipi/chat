@@ -5,10 +5,10 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">ユーザー登録</div>
+                <div class="panel-heading">ユーザー登録</div><br>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('register') }}">
+                    <form class="form-horizontal" method="POST" action="{{ url('/self/check') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -62,9 +62,16 @@
                         </div>
 
                         <div class="form-group">
+                            <div class="col-md-6">
+                                <input id="admin_flag" type="checkbox" name="admin">
+                                管理者として登録する
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-light">
-                                    登録
+                                    確認
                                 </button>
                             </div>
                         </div>

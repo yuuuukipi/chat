@@ -99,12 +99,7 @@ class RoomsController extends Controller
 
   //ルーム編集
   public function edit(Room $room){
-
-    // SELECT id,name,email FROM users WHERE users.id NOT IN
-    // ((SELECT u.id FROM room_users ru INNER JOIN users u ON ru.user_id
-    // = u.id WHERE ru.room_id = 2));
-    //
-
+    // dd($room->users()->get());
     $del_users=User::select(DB::raw('*'))
     ->whereIn(DB::raw('users.id'),function($query) use($room)
     {
@@ -129,29 +124,65 @@ class RoomsController extends Controller
     return view('rooms.edit')->with(['room'=>$room,'add_users'=>$add_users,'del_users'=>$del_users]);
   }
 
+  //投稿削除
   public function destroy(chat $chat) {
 
-  // dd($chat->id);
-  $chat->delete();
-  return redirect()->action('RoomsController@show', $chat->room_id);
+    // dd($chat->id);
+    $chat->delete();
+    return redirect()->action('RoomsController@show', $chat->room_id);
   }
 
+  //ルーム削除
   public function destroyRoom(room $room) {
-  $room->delete();
+    $room->delete();
   return redirect('/rooms');
   }
 
-  public function destroyUser(room $room,user $user) {
-    // dd(1234);
-    dd($room->id);
-  // $user=Room_user::select(id)
-  //     ->where('room_id','=',$room->id)
-  //     ->where('user_id','=',$user->id)
-  //     ->get();
+  //ルームのメンバー削除
+  public function destroyUser(room $room,request $request) {
+    $roomUser=Room_user::select(DB::raw('id'))
+        ->where('room_id','=',$room->id)
+        ->where('user_id','=',$request->user)
+        ->first();
+    $roomUser->delete();
+    return redirect()->action('RoomsController@edit', $room->id);
+    // return redirect('/rooms');
+  }
 
-  dd($room->room_user->$user);
-  $room->room_user->user->delete();
-  return redirect('/rooms');
+  //ルームのメンバー追加
+  public function add_user(room $room, request $request){
+    foreach ($request['member'] as $key => $member_id) {
+      $room_user = new Room_user();
+      $room_user->room_id=$room->id;
+      $room_user->user_id=$member_id;
+      $room_user->save();
+    }
+
+    // return redirect('/rooms');
+    return redirect()->action('RoomsController@edit', $room->id);
+  }
+
+  //管理画面　ユーザー一覧
+  public function admin_users(){
+    $users = User::orderBy('updated_at', 'desc')->orderBy('id', 'desc')->paginate(10);
+
+    return view('admin.users')->with('users', $users);
+
+  }
+  //管理画面　ルーム一覧
+  public function admin_rooms(){
+    $rooms = Room::orderBy('updated_at', 'desc')->orderBy('id', 'desc')->paginate(10);
+
+    return view('admin.rooms')->with('rooms', $rooms);
+
+  }
+
+  //管理画面　投稿一覧
+  public function admin_chats(){
+    $chats = Chat::orderBy('updated_at', 'desc')->orderBy('id', 'desc')->paginate(10);
+
+    return view('admin.chats')->with('chats', $chats);
+
   }
 
 }

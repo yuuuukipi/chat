@@ -79,30 +79,41 @@ class RegisterController extends Controller
 
     //登録情報確認画面
     public function register_check(Request $request){
-      // dd($request->all());
       $request->validate([
         'name' => 'required|string',
         'email' => 'required|string|email|max:255|unique:users',
         'password' => 'required|string|min:6|confirmed',
       ]);
+      // dd($request->admin);
       $user = new User();
       $user->name=$request->name;
       $user->email=$request->email;
       $user->password=$request->password;
+      if($request->admin=='on'){
+        $user->admin_flag='1';
+        $user->admin="管理者として登録する";
+      }else{
+        $user->admin_flag='0';
+      }
       // $user->admin_flag=false;
+      // dd($user);
 
       return view('auth.check')->with('user',$user);
     }
 
     //登録完了（保存）
     public function register_complete(Request $request){
+      // dd($request->name);
       $user = new User();
       $user->name=$request->name;
       $user->email=$request->email;
       $user->password= Hash::make($request->password);
+      $user->admin_flag=$request->admin_flag;
       // $user->admin_flag=false;
       $user->save();
-      return view('auth.complete');
+
+      return view('/');
+      // view('rooms.index')->with('user', $user);
     }
 
 }

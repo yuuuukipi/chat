@@ -21,5 +21,9 @@ class Room extends Model
   public function room_users(){
     return $this->hasMany('App\Room_user');
   }
+  //
+  // public function users(){
+  //   return $this->belongsToMany('App\User');
+  // }
 
 }
