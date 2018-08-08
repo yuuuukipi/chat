@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
   <head>
     <meta charset="utf-8">
     <title>chat | @yield('title', 'Home')</title>
@@ -31,6 +32,7 @@
     @show
       <div class='container'>
         @yield('content')
+
       </div>
 
     @yield('footer')

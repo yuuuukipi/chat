@@ -28,7 +28,7 @@ class RoomsController extends Controller
   //トークルーム作成
   public function get_create(){
     // dd(User::orderBy('updated_at', 'desc'));
-    $users = User::orderBy('updated_at', 'desc')->orderBy('id', 'desc')->paginate(10);
+    $users = User::orderBy('updated_at', 'desc')->orderBy('id', 'desc')->paginate(20);
     return view('rooms.create')->with('users', $users);
   }
 
@@ -129,13 +129,21 @@ class RoomsController extends Controller
 
     // dd($chat->id);
     $chat->delete();
-    return redirect()->action('RoomsController@show', $chat->room_id);
+    if('1'==Auth::user()->admin_flag){
+      return redirect()->action('AdminController@admin_chats', $chat->id);
+    }else{
+      return redirect()->action('RoomsController@show', $chat->room_id);
+    }
   }
 
   //ルーム削除
   public function destroyRoom(room $room) {
     $room->delete();
-  return redirect('/rooms');
+    if('1'==Auth::user()->admin_flag){
+      return redirect()->action('AdminController@admin_rooms', $room->id);
+    }else{
+      return redirect('/rooms');
+    }
   }
 
   //ルームのメンバー削除
@@ -145,8 +153,11 @@ class RoomsController extends Controller
         ->where('user_id','=',$request->user)
         ->first();
     $roomUser->delete();
-    return redirect()->action('RoomsController@edit', $room->id);
-    // return redirect('/rooms');
+    if('1'==Auth::user()->admin_flag){
+      return redirect()->action('AdminController@admin_rooms_edit', $room->id);
+    }else{
+      return redirect()->action('RoomsController@edit', $room->id);
+    }
   }
 
   //ルームのメンバー追加
@@ -158,31 +169,10 @@ class RoomsController extends Controller
       $room_user->save();
     }
 
-    // return redirect('/rooms');
-    return redirect()->action('RoomsController@edit', $room->id);
+    if('1'==Auth::user()->admin_flag){
+      return redirect()->action('AdminController@admin_rooms_edit', $room->id);
+    }else{
+      return redirect()->action('RoomsController@edit', $room->id);
+    }
   }
-
-  //管理画面　ユーザー一覧
-  public function admin_users(){
-    $users = User::orderBy('updated_at', 'desc')->orderBy('id', 'desc')->paginate(10);
-
-    return view('admin.users')->with('users', $users);
-
-  }
-  //管理画面　ルーム一覧
-  public function admin_rooms(){
-    $rooms = Room::orderBy('updated_at', 'desc')->orderBy('id', 'desc')->paginate(10);
-
-    return view('admin.rooms')->with('rooms', $rooms);
-
-  }
-
-  //管理画面　投稿一覧
-  public function admin_chats(){
-    $chats = Chat::orderBy('updated_at', 'desc')->orderBy('id', 'desc')->paginate(10);
-
-    return view('admin.chats')->with('chats', $chats);
-
-  }
-
 }

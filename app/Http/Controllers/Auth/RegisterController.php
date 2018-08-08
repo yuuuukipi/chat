@@ -112,7 +112,7 @@ class RegisterController extends Controller
       // $user->admin_flag=false;
       $user->save();
 
-      return view('/');
+      return view('rooms.index');
       // view('rooms.index')->with('user', $user);
     }
 

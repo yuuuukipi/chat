@@ -55,8 +55,24 @@ Route::delete('/rooms/{room}/users/{user}', 'RoomsController@destroyUser');
 Route::post('/rooms/{room}/users/new', 'RoomsController@add_user')->name('add_user');
 
 //管理画面　ユーザー一覧
-Route::get('/rooms/admin/users', 'RoomsController@admin_users');
+Route::get('/rooms/admin/users', 'AdminController@admin_users');
 //管理画面　ルーム一覧
-Route::get('/rooms/admin/rooms', 'RoomsController@admin_rooms');
+Route::get('/rooms/admin/rooms', 'AdminController@admin_rooms');
 //管理画面　投稿一覧
-Route::get('/rooms/admin/chats', 'RoomsController@admin_chats');
+Route::get('/rooms/admin/chats', 'AdminController@admin_chats');
+
+//管理画面　ルーム編集
+Route::get('/rooms/admin/rooms/edit/{room}', 'AdminController@admin_rooms_edit');
+Route::patch('/rooms/admin/rooms/edit/{room}/update', 'AdminController@update_room');
+//管理画面　ルーム メンバー一覧
+Route::get('/rooms/admin/rooms/{room}/member', 'AdminController@admin_rooms_member');
+
+//管理画面　メンバー編集
+Route::get('/rooms/admin/users/edit/{user}', 'AdminController@admin_users_edit');
+Route::patch('/rooms/admin/rooms/edit/user/{user}/update', 'AdminController@update_user');
+//管理画面　メンバー削除
+Route::delete('/rooms/admin/users/edit/{user}/delete', 'AdminController@admin_users_destroy');
+
+//管理画面　投稿編集
+Route::get('/rooms/admin/chats/edit/{chat}', 'AdminController@admin_chats_edit');
+Route::patch('/rooms/admin/chats/edit/{chat}/update', 'AdminController@update_chat');

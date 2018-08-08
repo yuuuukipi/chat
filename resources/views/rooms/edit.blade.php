@@ -39,9 +39,11 @@
       {{ csrf_field() }}
       <p>＜ユーザー追加＞</p>
       @foreach($add_users as $add_user)
+        @if((strcmp('0',$add_user->admin_flag))===0)
           <input type="checkbox" name="member[]" value="{{$add_user->id}}">
             {{$add_user->name}}
           <br>
+        @endif
       @endforeach
       <br>
       <button type="submit" class="btn btn-light">

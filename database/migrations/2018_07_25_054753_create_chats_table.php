@@ -18,13 +18,18 @@ class CreateChatsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('room_id');
             $table->string('comment');
-            $table->string('user_id');
+            $table->unsignedInteger('user_id');
             $table->timestamps();
             $table
               ->foreign('room_id')
               ->references('id')
               ->on('rooms')
               ->onDelete('cascade');
+              $table
+                ->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
 
         });
     }
