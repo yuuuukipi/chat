@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 class RoomsController extends Controller
 {
   public function index(){
+
+  //test
     // if(
     $rooms = Room::with(['room_users'])
       ->select(DB::raw('rooms.id as id, name, max(chats.id) as max_id, rooms.created_at'))
