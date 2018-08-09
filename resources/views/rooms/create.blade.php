@@ -47,5 +47,6 @@
               作成
           </button>
       </div>
+      <input type="hidden" name="token" value="{{$token}}">
   </form>
 @endsection

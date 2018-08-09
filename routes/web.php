@@ -23,7 +23,7 @@ Route::post('/self/complete','Auth\RegisterController@register_complete')->name(
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 
 //トーク作成
 Route::get('/rooms','RoomsController@index')->name('index');

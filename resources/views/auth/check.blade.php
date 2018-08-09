@@ -36,6 +36,8 @@
       <button type="submit" class="btn btn-light text-muted">
         登録
       </button>
-
+    <input type="hidden" name="token" value="{{$token}}">
   </form>
+  <script src="{{ asset('js/app.js') }}"></script>
+
 @endsection
