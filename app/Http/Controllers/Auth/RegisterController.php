@@ -71,6 +71,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+        //追加
     }
 
     //登録情報入力画面
