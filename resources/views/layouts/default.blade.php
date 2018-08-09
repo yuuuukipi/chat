@@ -20,19 +20,16 @@
                      document.getElementById('logout-form').submit();">
                    ログアウト</a>
                    　　　　
-             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                 {{ csrf_field() }}
-             </form>
-             <a href="{{ action('UsersController@myshow') }}">{{(Auth::user()->name)}}</a>
-             　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
-             <a href="">↑</a>
+           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+               {{ csrf_field() }}
+           </form>
+           <a href="{{ action('UsersController@myshow') }}">{{(Auth::user()->name)}}</a>
         @endguest
       <br></nav>
       <br><br>
     @show
       <div class='container'>
         @yield('content')
-
       </div>
 
     @yield('footer')

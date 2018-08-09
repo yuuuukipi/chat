@@ -41,8 +41,7 @@
         <div class="media-body">
           <div class="card col-md-8" style="background-color: aliceblue;">
             <p id="a{{$chat->id}}">{!! nl2br(e($chat->comment)) !!}</p>
-            <div class="text-right">{{ $chat->created_at->format('Y/m/d H:i') }}　
-            </div>
+            <div class="text-right">{{ $chat->created_at->format('Y/m/d H:i') }}</div>
           </div>
         </div>
       </div>
@@ -55,7 +54,7 @@
     <div class='container'>
 
       {{--<form method="post" action="{{ action('RoomsController@store', $room) }}">--}}
-        <form method="post" action="{{ action('RoomsController@store', [$room, '#a'.$room->latest_id]) }}">
+      <form method="post" action="{{ action('RoomsController@store', [$room, '#a'.$room->latest_id]) }}">
         {{ csrf_field() }}
         <div class="input-group">
           <textarea name="comment" placeholder="コメント" class="form-control" rows="1">{{ old('comment') }}</textarea>

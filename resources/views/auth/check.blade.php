@@ -24,11 +24,6 @@
         <input type="hidden" name="password" value="{{$user->password}}">
       </div>
 
-
-      {{--<div class="col-md-4 col-form-label">管理者：
-        <span></span>
-      </div>--}}
-
       <div class="col-md-4 col-form-label">{{$user->admin}}</div>
       <input type="hidden" name="admin_flag" value="{{$user->admin_flag}}">
       <br><br>

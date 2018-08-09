@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\DB;
 class RoomsController extends Controller
 {
   public function index(){
-    // if(
     $rooms = Room::with(['room_users'])
       ->select(DB::raw('rooms.id as id, name, max(chats.id) as max_id, rooms.created_at'))
       ->leftJoin('chats', 'chats.room_id', '=', 'rooms.id')
@@ -27,7 +26,6 @@ class RoomsController extends Controller
 
   //トークルーム作成
   public function get_create(Request $request){
-    // dd(User::orderBy('updated_at', 'desc'));
     $users = User::orderBy('updated_at', 'desc')->orderBy('id', 'desc')->paginate(20);
 
     $token = md5(uniqid(rand(), true));
@@ -38,7 +36,12 @@ class RoomsController extends Controller
 
   //トークルーム保存
   public function post_create(Request $request){
+    $this->validate($request, [
+    'member' => 'accepted'
+  ]);
+
     $post_token=$request->get('token');
+
     if($request->session()->get('token') !== $post_token){
       $request->session()->forget('token');
       return redirect('/rooms');
@@ -58,6 +61,7 @@ class RoomsController extends Controller
       $room_user->user_id=$member_id;
       $room_user->save();
     }
+
     $room_user = new Room_user();
     $room_user->room_id=$room->id;
     $room_user->user_id=Auth::user()->id;
@@ -69,13 +73,13 @@ class RoomsController extends Controller
   //チャット画面
   public function show(Request $request, Room $room){
 
-      $latest_id=Chat::latest()->first();
-      if($latest_id<>null){
+    $latest_id=Chat::latest()->first();
+    if($latest_id<>null){
       $room->latest_id=$latest_id->id+1;
-      }
-      // dd($room->latest_id);
-      $token = md5(uniqid(rand(), true));
-      $request->session()->put('token', $token);
+    }
+
+    $token = md5(uniqid(rand(), true));
+    $request->session()->put('token', $token);
 
     return view('rooms.show')->with(['room'=>$room, 'token'=>$token]);
   }
@@ -88,18 +92,20 @@ class RoomsController extends Controller
     if($request->session()->get('token') !== $post_token){
       return redirect()->action('RoomsController@show', $room->id);
     }
+
     $request->session()->forget('token');
 
-  $this->validate($request, [
-    'comment' => 'required'
-  ]);
-  $chat=new Chat([
-      'room_id' => $room->id,
-      'comment' => $request->comment,
-      'user_id' => Auth::user()->id]);
-  $chat->save();
+    $this->validate($request, [
+      'comment' => 'required'
+    ]);
 
-  return redirect()->action('RoomsController@show', $room);
+    $chat=new Chat([
+        'room_id' => $room->id,
+        'comment' => $request->comment,
+        'user_id' => Auth::user()->id]);
+    $chat->save();
+
+    return redirect()->action('RoomsController@show', $room);
 }
 
   //メンバー一覧
@@ -111,33 +117,30 @@ class RoomsController extends Controller
   public function edit(Room $room){
     // dd($room->users()->get());
     $del_users=User::select(DB::raw('*'))
-    ->whereIn(DB::raw('users.id'),function($query) use($room)
-    {
-      $query->select(DB::raw('users.id'))
-            ->from('users')
-            ->join('room_users as ru', 'ru.user_id', '=', 'users.id')
-            ->where('ru.room_id','=',$room->id);
-    })
-    ->get();
+      ->whereIn(DB::raw('users.id'),function($query) use($room)
+      {
+        $query->select(DB::raw('users.id'))
+              ->from('users')
+              ->join('room_users as ru', 'ru.user_id', '=', 'users.id')
+              ->where('ru.room_id','=',$room->id);
+      })
+      ->get();
 
     $add_users=User::select(DB::raw('*'))
-    ->whereNotIn(DB::raw('users.id'),function($query) use($room)
-    {
-      $query->select(DB::raw('users.id'))
-            ->from('users')
-            ->join('room_users as ru', 'ru.user_id', '=', 'users.id')
-            ->where('ru.room_id','=',$room->id);
-    })
-    ->get();
-    // dd($users);
+      ->whereNotIn(DB::raw('users.id'),function($query) use($room)
+      {
+        $query->select(DB::raw('users.id'))
+              ->from('users')
+              ->join('room_users as ru', 'ru.user_id', '=', 'users.id')
+              ->where('ru.room_id','=',$room->id);
+      })
+      ->get();
 
     return view('rooms.edit')->with(['room'=>$room,'add_users'=>$add_users,'del_users'=>$del_users]);
   }
 
   //投稿削除
   public function destroy(chat $chat) {
-
-    // dd($chat->id);
     $chat->delete();
     if('1'==Auth::user()->admin_flag){
       return redirect()->action('AdminController@admin_chats', $chat->id);

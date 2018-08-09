@@ -71,11 +71,12 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+        //追加
     }
 
     //登録情報入力画面
-      public function register_form(){
-        return view('auth.register');
+    public function register_form(){
+      return view('auth.register');
     }
 
     //登録情報確認画面

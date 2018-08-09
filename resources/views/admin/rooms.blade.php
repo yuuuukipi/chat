@@ -21,7 +21,7 @@
       <th>作成者</th>
       <th>作成日時</th>
       <th>最終更新日時</th>
-      <th>最終投稿日時</th>
+      {{--<th>最終投稿日時</th>--}}
       <th>メンバー</th>
       <th></th>
     </tr>
@@ -34,7 +34,7 @@
         <td>{{$room->create_user}}</td>
         <td>{{$room->created_at}}</td>
         <td>{{$room->updated_at}}</td>
-        <td>2018-XX-XX</td>
+        {{--<td>2018-XX-XX</td>--}}
         <td><a href="post_edit.php?mode=change">詳細</td>
         <td><a href="#" class="del" data-id="{{ $room->id }}">削除</a>
           <form method="post" action="{{ action('RoomsController@destroyRoom', $room) }}" id="form_{{ $room->id }}">
