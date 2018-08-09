@@ -26,14 +26,25 @@ class RoomsController extends Controller
   }
 
   //トークルーム作成
-  public function get_create(){
+  public function get_create(Request $request){
     // dd(User::orderBy('updated_at', 'desc'));
     $users = User::orderBy('updated_at', 'desc')->orderBy('id', 'desc')->paginate(20);
-    return view('rooms.create')->with('users', $users);
+
+    $token = md5(uniqid(rand(), true));
+    $request->session()->put('token', $token);
+
+    return view('rooms.create')->with(['users'=>$users, 'token'=>$token]);
   }
 
   //トークルーム保存
   public function post_create(Request $request){
+    $post_token=$request->get('token');
+    if($request->session()->get('token') !== $post_token){
+      $request->session()->forget('token');
+      return redirect('/rooms');
+    }
+    $request->session()->forget('token');
+
     //roomsテーブル更新
     $room = new Room();
     $room->name = $request->name;
@@ -66,27 +77,26 @@ class RoomsController extends Controller
       $token = md5(uniqid(rand(), true));
       $request->session()->put('token', $token);
 
-    return view('rooms.show')->with('room', $room);
+    return view('rooms.show')->with(['room'=>$room, 'token'=>$token]);
   }
 
   //チャット投稿
   public function store(Request $request, Room $room){
-      // $post_token=$request->get('token');
-      //
-      // if($request->session()->get('token') !== $post_token){
-      //     return redirect('/');
-      // }
 
+    $post_token=$request->get('token');
+
+    if($request->session()->get('token') !== $post_token){
+      return redirect()->action('RoomsController@show', $room->id);
+    }
+    $request->session()->forget('token');
 
   $this->validate($request, [
     'comment' => 'required'
   ]);
-  // dd($request->comment);
   $chat=new Chat([
       'room_id' => $room->id,
       'comment' => $request->comment,
       'user_id' => Auth::user()->id]);
-  // dd($room);
   $chat->save();
 
   return redirect()->action('RoomsController@show', $room);

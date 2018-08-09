@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+
 
 class RegisterController extends Controller
 {
@@ -69,11 +71,11 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+        //追加
     }
 
     //登録情報入力画面
       public function register_form(){
-      // dd(1);
         return view('auth.register');
     }
 
@@ -84,7 +86,6 @@ class RegisterController extends Controller
         'email' => 'required|string|email|max:255|unique:users',
         'password' => 'required|string|min:6|confirmed',
       ]);
-      // dd($request->admin);
       $user = new User();
       $user->name=$request->name;
       $user->email=$request->email;
@@ -95,25 +96,33 @@ class RegisterController extends Controller
       }else{
         $user->admin_flag='0';
       }
-      // $user->admin_flag=false;
-      // dd($user);
 
-      return view('auth.check')->with('user',$user);
+      $token = md5(uniqid(rand(), true));
+      $request->session()->put('token', $token);
+
+      return view('auth.check')->with(['user'=>$user, 'token'=>$token]);
     }
 
     //登録完了（保存）
     public function register_complete(Request $request){
-      // dd($request->name);
+      $user_token=$request->get('token');
+      if($request->session()->get('token') !== $user_token){
+        return redirect('/rooms');
+      }
+      $request->session()->forget('token');
+
       $user = new User();
       $user->name=$request->name;
       $user->email=$request->email;
       $user->password= Hash::make($request->password);
       $user->admin_flag=$request->admin_flag;
-      // $user->admin_flag=false;
       $user->save();
 
+      if(Auth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')])){
+        return redirect('/rooms');
+      }
+
       return view('rooms.index');
-      // view('rooms.index')->with('user', $user);
     }
 
 }

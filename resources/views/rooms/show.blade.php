@@ -62,7 +62,7 @@
             @if ($errors->has('comment'))
               <span class="error">{{ $errors->first('comment')}}</span>
             @endif
-            {{--<input type="hidden" name="token" value="{{$token}}">--}}
+            <input type="hidden" name="token" value="{{$token}}">
             <input type="submit" value="送信">
         </div>
 
