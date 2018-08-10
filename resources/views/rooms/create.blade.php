@@ -26,6 +26,12 @@
         @endif
       @endif
     @endforeach
+
+    @if ($errors->has('member'))
+      <span class="error" style="color:tomato;">{{ $errors->first('member')}}</span>
+    @endif
+
+
     {{$users->links()}}
     <br>
       <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
