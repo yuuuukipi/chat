@@ -115,6 +115,8 @@ class RoomsController extends Controller
 
   //ルーム編集
   public function edit(Room $room){
+
+    //てすと
     // dd($room->users()->get());
     $del_users=User::select(DB::raw('*'))
       ->whereIn(DB::raw('users.id'),function($query) use($room)
