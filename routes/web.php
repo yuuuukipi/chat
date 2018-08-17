@@ -43,7 +43,7 @@ Route::get('/mypage/edit', 'UsersController@edit');
 Route::patch('/mypage', 'UsersController@update');
 
 
-Route::get('/rooms/{room}/test', 'RoomsController@test');
+Route::get('/rooms/test', 'RoomsController@test');
 
 
 //ルーム編集

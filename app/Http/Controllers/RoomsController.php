@@ -192,20 +192,19 @@ class RoomsController extends Controller
   }
 
 
-  public function test(room $room)
+  public function test(request $request)
   {
-    //TODO DBから、最新記事を取得する。
     $dt=Carbon::now();
     $date=$dt->year."-".$dt->month."-".$dt->day;
     $time=$dt->hour.":".$dt->minute.":".$dt->second;
-
+// dd($request->all());
     $chat = Chat::select(DB::raw('comment'))
-    ->where('room_id','=',:id)
+    ->where('room_id','=',$request->id)
     ->whereDate('created_at',$date)
     ->whereTime('created_at','<',$time)
     ->get();
 
-      dd($chat);
+      // dd($chat);
     return json_encode($chat);
   }
 }

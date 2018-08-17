@@ -18,8 +18,12 @@
           url: 'http://localhost:8000/rooms/test',
           type: 'GET',
           dataType: 'json',
-          data: {id:"11"}
-          //data: $('form').serializeArray(),
+          data: {
+              id : $('#id').val()
+          //   id : $("input[name=id]").val(),
+          },
+          // hidden  : $("input[name=id]").val(),
+          // data: $('form').serializeArray(),
           timeout: 5000,
         })
         .done(function(data) {
@@ -29,7 +33,6 @@
         .fail(function() {
             // 通信失敗時の処理を記述
         });
-
 
 
       }
