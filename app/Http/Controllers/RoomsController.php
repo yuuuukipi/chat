@@ -175,7 +175,7 @@ class RoomsController extends Controller
     }
   }
 
-  //ルームのメンバー追加
+  //ルームのメンバー追加
   public function add_user(room $room, request $request){
     foreach ($request['member'] as $key => $member_id) {
       $room_user = new Room_user();
@@ -189,5 +189,23 @@ class RoomsController extends Controller
     }else{
       return redirect()->action('RoomsController@edit', $room->id);
     }
+  }
+
+
+  public function test(room $room)
+  {
+    //TODO DBから、最新記事を取得する。
+    $dt=Carbon::now();
+    $date=$dt->year."-".$dt->month."-".$dt->day;
+    $time=$dt->hour.":".$dt->minute.":".$dt->second;
+
+    $chat = Chat::select(DB::raw('comment'))
+    ->where('room_id','=',:id)
+    ->whereDate('created_at',$date)
+    ->whereTime('created_at','<',$time)
+    ->get();
+
+      dd($chat);
+    return json_encode($chat);
   }
 }
