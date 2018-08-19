@@ -15,12 +15,14 @@
 
 @section('content')
 
-  <div style="margin-bottom:100px">
+  <div class="comment" style="margin-bottom:100px">
+
     @foreach($room->chats as $chat)
+
       @if((strcmp($chat->user_id,Auth::user()->id))==0)
         <div class="card col-md-8 offset-sm-4" style="background-color: gainsboro;">
           <p id="a{{$chat->id}}">{!! nl2br(e($chat->comment)) !!}</p>
-          <div class="text-right">{{ $chat->created_at->format('Y/m/d H:i') }}　
+          <div class="text-right post-date">{{ $chat->created_at }}　
 
             {{--記事の削除--}}
             <a href="#" class="del" data-id="{{ $chat->id }}">[削除]</a>
@@ -41,7 +43,7 @@
         <div class="media-body">
           <div class="card col-md-8" style="background-color: aliceblue;">
             <p id="a{{$chat->id}}">{!! nl2br(e($chat->comment)) !!}</p>
-            <div class="text-right">{{ $chat->created_at->format('Y/m/d H:i') }}</div>
+            <div class="text-right post-date">{{ $chat->created_at }}</div>
           </div>
         </div>
       </div>
@@ -73,6 +75,6 @@
 
     <input type="hidden" id="id" name="id" value="{{$room->id}}">
 
-  <script src="/js/main.js"></script>
+  <script src="/js/update.js"></script>
 
 @endsection
