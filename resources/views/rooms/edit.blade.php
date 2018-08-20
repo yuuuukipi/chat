@@ -6,8 +6,9 @@
   <div class='container'>
     <br><p class="text-muted">{{$room->name}}</p>
     編集画面
-
-    <br>
+    <div class="text-right">
+      <a href="{{ action('RoomsController@show', $room) }}" class="header-menu">戻る</a>
+    </div>
   </div>
 
 
@@ -45,11 +46,16 @@
             <br>
           @endif
         @endforeach
+
+      @if ($errors->has('member'))
+        <br><span class="error" style="color:tomato;">{{ $errors->first('member')}}</span>
+      @endif
       <br>
+
       <button type="submit" class="btn btn-light">
           追加
       </button>
     </form>
-  </div>
+  </div><br>
   <script src="/js/main.js"></script>
 @endsection

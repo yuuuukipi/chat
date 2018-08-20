@@ -118,7 +118,6 @@ class RoomsController extends Controller
   //ルーム編集
   public function edit(Room $room){
 
-    //て
     // dd($room->users()->get());
     $del_users=User::select(DB::raw('*'))
       ->whereIn(DB::raw('users.id'),function($query) use($room)
@@ -179,6 +178,10 @@ class RoomsController extends Controller
 
   //ルームのメンバー追加
   public function add_user(room $room, request $request){
+    $this->validate($request, [
+    'member' => 'accepted'
+    ]);
+
     foreach ($request['member'] as $key => $member_id) {
       $room_user = new Room_user();
       $room_user->room_id=$room->id;
