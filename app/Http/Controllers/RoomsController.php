@@ -31,22 +31,24 @@ class RoomsController extends Controller
     $token = md5(uniqid(rand(), true));
     $request->session()->put('token', $token);
 
+
     return view('rooms.create')->with(['users'=>$users, 'token'=>$token]);
   }
 
   //トークルーム保存
   public function post_create(Request $request){
-    $this->validate($request, [
-    'member' => 'accepted'
-  ]);
 
-    $post_token=$request->get('token');
-
-    if($request->session()->get('token') !== $post_token){
-      $request->session()->forget('token');
-      return redirect('/rooms');
-    }
-    $request->session()->forget('token');
+  //   $this->validate($request, [
+  //   'member' => 'accepted'
+  // ]);
+  //
+  //   $post_token=$request->get('token');
+  //
+  //   if($request->session()->get('token') !== $post_token){
+  //     $request->session()->forget('token');
+  //     return redirect('/rooms');
+  //   }
+  //   $request->session()->forget('token');
 
     //roomsテーブル更新
     $room = new Room();
@@ -174,7 +176,7 @@ class RoomsController extends Controller
     }
   }
 
-  //ルームのメンバー追加
+  //ルームのメンバー追加
   public function add_user(room $room, request $request){
     $this->validate($request, [
     'member' => 'accepted'
@@ -192,5 +194,26 @@ class RoomsController extends Controller
     }else{
       return redirect()->action('RoomsController@edit', $room->id);
     }
+  }
+
+
+  public function test(request $request)
+  {
+    // $dt=Carbon::now();
+    // $date=$dt->year."-".$dt->month."-".$dt->day;
+    // $time=$dt->hour.":".$dt->minute.":".$dt->second;
+// dd($request->all());
+    $chat = Chat::select(DB::raw('*'))
+    // ->leftJoin('users', 'chats.user_id', '=', 'users.id')
+    ->where('room_id','=',$request->id)
+    ->where('created_at','>',$request->date)
+    ->get();
+
+    $user = User::select(DB::raw('*'))
+    ->get();
+
+      // dd($chat);
+      // return json_encode($chat);
+    return array($chat,$user);
   }
 }

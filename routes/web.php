@@ -42,6 +42,10 @@ Route::get('/mypage', 'UsersController@myshow');
 Route::get('/mypage/edit', 'UsersController@edit');
 Route::patch('/mypage', 'UsersController@update');
 
+
+Route::get('/rooms/test', 'RoomsController@test');
+
+
 //ルーム編集
 Route::get('/rooms/{room}/edit', 'RoomsController@edit');
 
