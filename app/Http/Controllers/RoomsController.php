@@ -75,10 +75,10 @@ class RoomsController extends Controller
   //チャット画面
   public function show(Request $request, Room $room){
 
-    $latest_id=Chat::latest()->first();
-    if($latest_id<>null){
-      $room->latest_id=$latest_id->id+1;
-    }
+    // $latest_id=Chat::latest()->first();
+    // if($latest_id<>null){
+    //   $room->latest_id=$latest_id->id+1;
+    // }
 
     $token = md5(uniqid(rand(), true));
     $request->session()->put('token', $token);
@@ -178,9 +178,9 @@ class RoomsController extends Controller
 
   //ルームのメンバー追加
   public function add_user(room $room, request $request){
-    $this->validate($request, [
-    'member' => 'accepted'
-    ]);
+    // $this->validate($request, [
+    // 'member' => 'accepted'
+    // ]);
 
     foreach ($request['member'] as $key => $member_id) {
       $room_user = new Room_user();
@@ -199,12 +199,7 @@ class RoomsController extends Controller
 
   public function test(request $request)
   {
-    // $dt=Carbon::now();
-    // $date=$dt->year."-".$dt->month."-".$dt->day;
-    // $time=$dt->hour.":".$dt->minute.":".$dt->second;
-// dd($request->all());
     $chat = Chat::select(DB::raw('*'))
-    // ->leftJoin('users', 'chats.user_id', '=', 'users.id')
     ->where('room_id','=',$request->id)
     ->where('created_at','>',$request->date)
     ->get();
@@ -212,8 +207,6 @@ class RoomsController extends Controller
     $user = User::select(DB::raw('*'))
     ->get();
 
-      // dd($chat);
-      // return json_encode($chat);
     return array($chat,$user);
   }
 }
