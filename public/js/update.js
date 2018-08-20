@@ -21,19 +21,13 @@
         data: {
             id : $('#id').val(),
             date : date
-        //   id : $("input[name=id]").val(),
         },
-        // hidden  : $("input[name=id]").val(),
-        // data: $('form').serializeArray(),
-        timeout: 5000,
+        timeout: 6000,
       })
       .done(function(data) {
           // 通信成功時の処理を記述
-          // alert(data);
           $.each(data[0], function(index) {
             // console.log(data);
-            // alert(date(data[index].created_at));
-
             // $('.comment').append(
             //   "<div class='card col-md-8' style='background-color: aliceblue;'>data[index].comment</div>");
             console.log(data[0]);
@@ -64,9 +58,16 @@
 
           });
 
-          $('body').delay(100).animate({
-            scrollTop: $(document).height()
-          },1500);
+          // $('body').delay(100).animate({
+          //   scrollTop: $(document).height()
+          // },1500);
+          //
+
+          // alert('a');
+          var a = document.documentElement;
+          var y = a.scrollHeight - a.clientHeight;
+          window.scroll(0, y);
+
 
 
       })
@@ -75,7 +76,7 @@
       });
 
 
-    },5000);
+    },6000);
   // });
 
 })();
