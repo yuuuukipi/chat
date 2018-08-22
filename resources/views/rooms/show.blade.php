@@ -26,7 +26,7 @@
 
             {{--記事の削除--}}
             <a href="#" class="del" data-id="{{ $chat->id }}">[削除]</a>
-            <form method="post" action="{{ action('RoomsController@destroy', $chat) }}" id="form_{{ $chat->id }}">
+            <form method="post" action="{{ action('ChatsController@destroy', $chat) }}" id="form_{{ $chat->id }}">
               {{ csrf_field() }}
               {{ method_field('delete') }}
             </form>
@@ -57,19 +57,19 @@
   <footer class="fixed-bottom mb-5">
     <div class='container'>
 
-      <form method="post" action="{{ action('RoomsController@store', $room) }}">
-      {{--<form method="post" action="{{ action('RoomsController@store', [$room, '#a'.$room->latest_id]) }}">--}}
+      <form method="post" action="{{ action('ChatsController@store', $room) }}">
         {{ csrf_field() }}
         <div class="input-group">
           <textarea name="comment" placeholder="コメント" class="form-control" rows="1">{{ old('comment') }}</textarea>
-            @if ($errors->has('comment'))
-              <span class="error">{{ $errors->first('comment')}}</span>
-            @endif
             <input type="hidden" name="token" value="{{$token}}">
             <input type="submit" value="送信">
         </div>
-
       </form>
+
+      @if ($errors->has('comment'))
+        <span class="error" style="color:tomato;">{{ $errors->first('comment')}}</span>
+      @endif
+
 
     </div>
 

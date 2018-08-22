@@ -18,12 +18,15 @@ class Room extends Model
   //   return $this -> hasMany('App\User');
   // }
 
-  public function room_users(){
-    return $this->hasMany('App\Room_user');
-  }
-  //
-  // public function users(){
-  //   return $this->belongsToMany('App\User');
+  // public function room_users(){
+  //   return $this->hasMany('App\Room_user');
   // }
+  // public function room_users(){
+  //   return $this->belongsToMany('App\Room_user');
+  // }
+  //
+  public function users(){
+    return $this->belongsToMany('App\User');
+  }
 
 }

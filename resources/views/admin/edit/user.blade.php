@@ -12,7 +12,7 @@
 @endsection
 @section('content')
 
-  <form method="post" action="{{ action('AdminController@update_user',$user) }}">
+  <form method="post" action="{{ action('AdminController@updateUser',$user) }}">
     {{ csrf_field() }}
     {{ method_field('patch') }}
     <p>ユーザー名：

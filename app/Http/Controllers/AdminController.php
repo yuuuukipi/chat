@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Room;
 use App\User;
 use App\Chat;
-use App\Room_user;
+// use App\Room_user;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -15,21 +15,21 @@ class AdminController extends Controller
 {
 
   //管理画面　ユーザー一覧
-  public function admin_users(){
+  public function adminUsers(){
     $users = User::orderBy('id')->paginate(20);
 
     return view('admin.users')->with('users', $users);
   }
 
   //管理画面　ルーム一覧
-  public function admin_rooms(){
+  public function adminRooms(){
     $rooms = Room::orderBy('id')->paginate(30);
 
     return view('admin.rooms')->with('rooms', $rooms);
   }
 
   //管理画面　投稿一覧
-  public function admin_chats(){
+  public function adminChats(){
     $chats = Chat::orderBy('id')->paginate(30);
 
     return view('admin.chats')->with('chats', $chats);
@@ -40,73 +40,57 @@ class AdminController extends Controller
   /*ユーザー
   管理画面　ユーザー編集
   */
-  public function admin_users_edit(user $user){
+  public function adminUsersEdit(user $user){
     return view('admin.edit.user')->with('user', $user);
   }
 
   //管理画面　ユーザー削除
-  public function admin_users_destroy(user $user){
+  public function adminUsersDestroy(user $user){
     $user->delete();
-    return redirect()->action('AdminController@admin_users', $user->id);
+    return redirect()->action('AdminController@adminUsers', $user->id);
   }
 
   //管理画面　ユーザー情報更新
-  public function update_user(request $request, User $user){
+  public function updateUser(request $request, User $user){
     $user->name=$request->name;
     $user->email=$request->email;
     $user->save();
-    return redirect()->action('AdminController@admin_users_edit', $user->id);
+    return redirect()->action('AdminController@adminUsersEdit', $user->id);
   }
 
 
 
   //管理画面　ルーム編集
-  public function admin_rooms_edit(room $room){
+  public function adminRoomsEdit(room $room){
+    $delUsers=User::all();
+    $delUsers=$room->users;
 
-    $del_users=User::select(DB::raw('*'))
-      ->whereIn(DB::raw('users.id'),function($query) use($room)
-      {
-        $query->select(DB::raw('users.id'))
-              ->from('users')
-              ->join('room_users as ru', 'ru.user_id', '=', 'users.id')
-              ->where('ru.room_id','=',$room->id);
-      })
-      ->get();
+    $addUsers=User::all();
 
-    $add_users=User::select(DB::raw('*'))
-      ->whereNotIn(DB::raw('users.id'),function($query) use($room)
-      {
-        $query->select(DB::raw('users.id'))
-              ->from('users')
-              ->join('room_users as ru', 'ru.user_id', '=', 'users.id')
-              ->where('ru.room_id','=',$room->id);
-      })
-      ->get();
-
-    return view('admin.edit.room')->with(['room'=>$room,'add_users'=>$add_users,'del_users'=>$del_users]);
+    return view('admin.edit.room')->with(['room'=>$room,'add_users'=>$addUsers,'del_users'=>$delUsers]);
   }
 
   //ルーム内容更新
-  public function update_room(request $request, Room $room){
+  public function updateRoom(request $request, Room $room){
     $room->name=$request->name;
     $room->create_user=$request->create_user;
     $room->save();
-    return redirect()->action('AdminController@admin_rooms_edit', $room->id);
+    return redirect()->action('AdminController@adminRoomsEdit', $room->id);
   }
 
 
   /*
   管理画面　チャット編集
   */
-  public function admin_chats_edit(chat $chat){
+  public function adminChatsEdit(chat $chat){
     return view('admin.edit.chat')->with('chat', $chat);
   }
-  
+
   //チャット内容更新
-  public function update_chat(request $request, Chat $chat){
+  public function updateChat(request $request, Chat $chat){
     $chat->comment=$request->comment;
     $chat->save();
-    return redirect()->action('AdminController@admin_chats_edit', $chat->id);
+    return redirect()->action('AdminController@adminChatsEdit', $chat->id);
   }
 
 

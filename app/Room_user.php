@@ -13,13 +13,13 @@ class Room_user extends Model
   public $timestamps = false;
 
 
-  public function room(){
-    return $this->belongsTo('App\Room');
-  }
-
-  public function user(){
-    return $this->belongsTo('App\User');
-  }
+  // public function room(){
+  //   return $this->belongsTo('App\Room');
+  // }
+  //
+  // public function user(){
+  //   return $this->belongsTo('App\User');
+  // }
 
 
 }
