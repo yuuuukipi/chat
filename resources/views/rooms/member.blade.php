@@ -18,8 +18,8 @@
 @section('content')
 
   <div>
-    @foreach($room->room_users as $data)
-      <a href="{{ action('UsersController@show', $data->user)}}" class="icon-rounded">{{$data->user->name}}</a>
+    @foreach($room->users as $data)
+      <a href="{{ action('UsersController@show', $data->id)}}" class="icon-rounded">{{$data->name}}</a>
       <br>
     @endforeach
   </div>

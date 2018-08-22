@@ -11,7 +11,7 @@
 
 @endsection
 @section('content')
-  <form method="post" action="{{ action('AdminController@update_chat',$chat) }}">
+  <form method="post" action="{{ action('AdminController@updateChat',$chat) }}">
     {{ csrf_field() }}
     {{ method_field('patch') }}
     <p>投稿者：

@@ -38,15 +38,15 @@
           <label for="name" class="col-md-4 control-label">トーク名</label>
 
           <div class="col-md-6">
-              <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+              <input id="name" type="text" class="form-control" name="roomname" value="{{ old('name') }}" >
 
-              @if ($errors->has('name'))
-                  <span class="help-block">
-                      <strong>{{ $errors->first('name') }}</strong>
-                  </span>
+              @if ($errors->has('roomname'))
+                <span class="error" style="color:tomato;">{{ $errors->first('roomname')}}</span>
               @endif
           </div>
       </div>
+
+
 
       <div class='container'>
           <button type="submit" class="btn btn-light">

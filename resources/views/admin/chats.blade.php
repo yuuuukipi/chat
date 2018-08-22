@@ -30,7 +30,7 @@
       @foreach($chats as $chat)
         <tr>
           <td>{{$chat->id}}</td>
-          <td><a href="{{action('AdminController@admin_chats_edit',$chat)}}">編集</a></td>
+          <td><a href="{{action('AdminController@adminChatsEdit',$chat)}}">編集</a></td>
           <td>{{$chat->room->name}}</td>
           <td>{{$chat->user->name}}</td>
           <td>{{$chat->comment}}</td>
